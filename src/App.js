@@ -1,6 +1,6 @@
 //TODO: STEP 1 - Import the useState hook.
 
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import BottomRow from "./BottomRow";
 import Buttons from "./Buttons";
@@ -13,93 +13,85 @@ function App() {
   const [quarter, setQuarter] = useState(1);
   const [timer, setTimer] = useState(1500);
 
-const countRef = useRef(timer);
-countRef.current = timer;
- useEffect(() => {
+  const countRef = useRef(timer);
+  countRef.current = timer;
+  useEffect(() => {
+    let countdown = setInterval(() => {
+      if (countRef.current % 100 == 0) {
+        setTimer(countRef.current - 41);
+      } else {
+        setTimer(countRef.current - 1);
+      }
 
+      if(countRef.current===0){
+        clearInterval(countdown);
+      }
 
-let countdown = setInterval(() => {
-
-      if(countRef.current%100==0){
-        setTimer(countRef.current-41);
-      }else{
-      setTimer(countRef.current - 1);
-}
     }, 1000);
-
   }, []);
 
-  function timerColor(){
-    if(countRef.current <= 0){
-
+  function timerColor() {
+    if (countRef.current <= 0) {
       return "redFont timer";
-    } else{
+    } else {
       return "timer";
     }
   }
 
-  function convertText(number){
-    if(number>0){
-      
+  function convertText(number) {
+    if (number > 0) {
       let stringNum = number.toString();
       let length = stringNum.length;
-      
 
-      if(length==4){
+      if (length == 4) {
         let split = stringNum.split("");
-        
-        split.splice(2,0,":")
+
+        split.splice(2, 0, ":");
         let returnString = split.join("");
 
-      return returnString;
-      } else if(length==3){
-let split = stringNum.split("");
-        split.splice(0,0,"0")
-        split.splice(2,0,":")
-        let returnString = split.join("");
-
-      return returnString;
-      } else if (length ==2){
+        return returnString;
+      } else if (length == 3) {
         let split = stringNum.split("");
-        split.splice(0,0,"0")
-        split.splice(0,0,"0")
-        split.splice(2,0,":")
+        split.splice(0, 0, "0");
+        split.splice(2, 0, ":");
         let returnString = split.join("");
 
-      return returnString;
-      } else if(length ==1){
-let split = stringNum.split("");
-        split.splice(0,0,"0")
-        split.splice(0,0,"0")
-        split.splice(2,0,":")
-        split.splice(3,0,"0")
+        return returnString;
+      } else if (length == 2) {
+        let split = stringNum.split("");
+        split.splice(0, 0, "0");
+        split.splice(0, 0, "0");
+        split.splice(2, 0, ":");
         let returnString = split.join("");
 
-      return returnString;
+        return returnString;
+      } else if (length == 1) {
+        let split = stringNum.split("");
+        split.splice(0, 0, "0");
+        split.splice(0, 0, "0");
+        split.splice(2, 0, ":");
+        split.splice(3, 0, "0");
+        let returnString = split.join("");
+
+        return returnString;
       }
-    } else{
+    } else {
       return "00:00";
     }
   }
 
-
-
-  function handleClick (score, context){
-    
-    if(context=="Home"){
+  function handleClick(score, context) {
+    if (context == "Home") {
       raiseHomeScore(homeScore + score);
-    } else if(context=="Away") {
+    } else if (context == "Away") {
       raiseAwayScore(awayScore + score);
-    } else if(context=="Quarter"){
-      score==7 ? score =1 : score = -1;
-      if(score==1 && quarter ==4){
-
-      } else if(score==-1 && quarter==1){
-
-      }else{
+    } else if (context == "Quarter") {
+      score == 7 ? (score = 1) : (score = -1);
+      if (score == 1 && quarter == 4) {
+      } else if (score == -1 && quarter == 1) {
+      } else {
         setQuarter(quarter + score);
       }
-      
     }
   }
 
@@ -117,10 +109,10 @@ let split = stringNum.split("");
             <div className="away__score">{awayScore}</div>
           </div>
         </div>
-        
-        <BottomRow quarter={quarter}/>
+
+        <BottomRow quarter={quarter} />
       </section>
-      <Buttons handleClick={handleClick}/>
+      <Buttons handleClick={handleClick} />
     </div>
   );
 }
